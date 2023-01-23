@@ -1,0 +1,33 @@
+clear
+close all 
+
+j = 10;
+p = 100;
+z = 10;
+K = p/z/j;
+
+w = sqrt(p*z)/1.4
+
+G = tf(j,[1 0 0]);
+D = tf(K*[1 z],[1 p]);
+GD = G*D;
+H = GD/(1+GD);
+
+
+[Gm,Pm,Wcg,Wcp] = margin(GD)
+[mag,phase,wout] = bode(GD);
+
+subplot(2,1,1);
+y1 = log10(reshape(mag,[73,1]))
+x = log10(wout)
+plot(x,y1)
+yline(0)
+
+subplot(2,1,2); 
+y2 = phase
+plot(x,y2)
+
+
+
+
+
